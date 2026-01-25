@@ -2,63 +2,125 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>I am Shubham</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-<style>
+<title>I Am Shubham — Cinematic 3D</title><!-- GSAP + Three.js --><script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script><script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800&display=swap" rel="stylesheet"><style>
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;font-family:'Inter',sans-serif;background:#05060a;color:#fff;overflow:hidden}/* BACKGROUND */ .bg{ position:fixed;inset:0; background: radial-gradient(circle at 20% 30%, #3b82f655, transparent 40%), radial-gradient(circle at 80% 70%, #9333ea55, transparent 45%), linear-gradient(180deg,#05060a,#020308); z-index:-2; } .noise{ position:fixed;inset:0; background:url('https://grainy-gradients.vercel.app/noise.svg'); opacity:.12;z-index:-1; }
+html,body{height:100%;font-family:'Inter',sans-serif;background:#030409;overflow:hidden;color:#fff}
+canvas{display:block}
 
-/* CENTER OBJECT */ .scene{ height:100vh; display:flex; align-items:center; justify-content:center; perspective:1200px; } .card{ width:280px;height:380px; border-radius:28px; background:linear-gradient(145deg,#0f172a,#020617); border:1px solid rgba(255,255,255,.15); box-shadow:0 40px 120px rgba(0,0,0,.7); display:flex; align-items:center; justify-content:center; text-align:center; transform-style:preserve-3d; transition:transform .15s ease; }
+/* OVERLAY TEXT */
+.overlay{
+  position:fixed;inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+}
 
-.card::before{ content:""; position:absolute;inset:0; border-radius:28px; background:linear-gradient(120deg,transparent,rgba(255,255,255,.25),transparent); opacity:.15; }
+.title{
+  font-size:clamp(3rem,10vw,7rem);
+  font-weight:800;
+  letter-spacing:6px;
+  text-align:center;
+  mix-blend-mode:screen;
+}
 
-/* TEXT */ .title{ font-size:1.9rem; font-weight:800; letter-spacing:2px; } .subtitle{ font-size:.7rem; letter-spacing:3px; margin-top:10px; opacity:.7; }
+.subtitle{
+  position:fixed;
+  bottom:40px;width:100%;
+  text-align:center;
+  font-size:.7rem;
+  letter-spacing:3px;
+  opacity:.7;
+}
 
-/* FLOATING ELEMENTS */ .float{ position:absolute; width:10px;height:10px; border-radius:50%; background:#60a5fa; box-shadow:0 0 18px #60a5fa; animation:float 6s ease-in-out infinite; } .float.one{top:20%;left:25%} .float.two{top:70%;left:70%;animation-delay:2s} .float.three{top:40%;left:80%;animation-delay:4s}
+/* LOADER */
+.loader{
+  position:fixed;inset:0;
+  background:#030409;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:10;
+}
+.loader span{letter-spacing:4px;font-size:.8rem;opacity:.7}
+</style></head>
+<body><div class="loader" id="loader"><span>LOADING EXPERIENCE</span></div><div class="overlay">
+  <div class="title">I&nbsp;AM<br>SHUBHAM</div>
+</div>
+<div class="subtitle">TAP • MOVE • FEEL</div><script>
+// SCENE
+const scene = new THREE.Scene();
+scene.fog = new THREE.Fog(0x030409, 6, 18);
 
-@keyframes float{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
+// CAMERA
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 100);
+camera.position.z = 8;
 
-/* TAP TEXT */ .tap{ position:fixed;bottom:40px;width:100%; text-align:center; font-size:.65rem;letter-spacing:2px;opacity:.6; }
+// RENDERER
+const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+document.body.appendChild(renderer.domElement);
 
-/* REVEAL SECTION */ .reveal{ position:fixed;inset:0; background:#05060a; display:flex;flex-direction:column; align-items:center;justify-content:center; opacity:0;pointer-events:none; transition:.6s ease; } .reveal.active{opacity:1;pointer-events:auto} .reveal h2{font-size:2.4rem;font-weight:800} .reveal p{max-width:320px;text-align:center;font-size:.8rem;opacity:.8;margin-top:14px;line-height:1.6}
+// LIGHTS
+const ambient = new THREE.AmbientLight(0xffffff,.4);
+scene.add(ambient);
 
-</style>
-</head>
-<body>
-<div class="bg"></div>
-<div class="noise"></div><div class="float one"></div>
-<div class="float two"></div>
-<div class="float three"></div><div class="scene" id="scene">
-  <div class="card" id="card">
-    <div>
-      <div class="title">I AM<br>SHUBHAM</div>
-      <div class="subtitle">CREATIVE MIND</div>
-    </div>
-  </div>
-</div><div class="tap">TAP TO ENTER</div><div class="reveal" id="reveal">
-  <h2>Welcome</h2>
-  <p>
-    This isn’t a website.<br>
-    It’s a visual experience.<br>
-    Built to feel different.
-  </p>
-</div><script>
-const card = document.getElementById('card');
-const scene = document.getElementById('scene');
-const reveal = document.getElementById('reveal');
+const point = new THREE.PointLight(0x3b82f6,2,20);
+point.position.set(2,3,5);
+scene.add(point);
 
-scene.addEventListener('mousemove', e => {
-  const x = (window.innerWidth/2 - e.clientX) / 25;
-  const y = (window.innerHeight/2 - e.clientY) / 25;
-  card.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+// OBJECT (CENTER CINEMATIC SHAPE)
+const geometry = new THREE.IcosahedronGeometry(1.8,1);
+const material = new THREE.MeshStandardMaterial({
+  color:0x0f172a,
+  metalness:.9,
+  roughness:.15,
+  emissive:0x1e3a8a,
+  emissiveIntensity:.35
+});
+const mesh = new THREE.Mesh(geometry, material);
+scene.add(mesh);
+
+// FLOAT RINGS
+const ringGeo = new THREE.TorusGeometry(2.8,.02,16,100);
+const ringMat = new THREE.MeshBasicMaterial({color:0x3b82f6,transparent:true,opacity:.35});
+const ring = new THREE.Mesh(ringGeo, ringMat);
+ring.rotation.x = Math.PI/2;
+scene.add(ring);
+
+// MOUSE INTERACTION
+const mouse = {x:0,y:0};
+window.addEventListener('mousemove',e=>{
+  mouse.x = (e.clientX/window.innerWidth-.5)*2;
+  mouse.y = (e.clientY/window.innerHeight-.5)*2;
 });
 
-scene.addEventListener('mouseleave', ()=>{
-  card.style.transform = 'rotateX(0) rotateY(0)';
-});
+// ANIMATE
+function animate(){
+  mesh.rotation.y += 0.004;
+  mesh.rotation.x += 0.002;
+  ring.rotation.z -= 0.002;
 
-scene.addEventListener('click', ()=>{
-  reveal.classList.add('active');
+  mesh.rotation.y += mouse.x*0.02;
+  mesh.rotation.x += mouse.y*0.02;
+
+  renderer.render(scene,camera);
+  requestAnimationFrame(animate);
+}
+
+// INTRO TIMELINE
+gsap.from(mesh.scale,{x:0,y:0,z:0,duration:1.6,ease:'expo.out'});
+gsap.from('.title',{opacity:0,y:40,duration:1.4,delay:.6});
+gsap.to('#loader',{opacity:0,delay:1.4,onComplete:()=>document.getElementById('loader').remove()});
+
+animate();
+
+// RESIZE
+window.addEventListener('resize',()=>{
+  camera.aspect = window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth,window.innerHeight);
 });
 </script></body>
 </html>
