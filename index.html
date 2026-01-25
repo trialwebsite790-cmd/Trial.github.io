@@ -1,148 +1,148 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Marvel Sneakers | 3D Edition</title>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: "Segoe UI", sans-serif;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UNREAL SNEAKERS – Unreal Sneakers</title>  <!-- Google Font -->  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Poppins',sans-serif;
     }
 
-    body {
-      background: radial-gradient(circle at top, #111 0%, #000 70%);
-      color: #fff;
-      min-height: 100vh;
-      overflow-x: hidden;
+    body{
+      min-height:100vh;
+      background:radial-gradient(circle at top,#111,#000);
+      color:#fff;
+      display:flex;
+      justify-content:center;
+      align-items:center;
     }
 
-    .container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 80px 20px;
-      text-align: center;
+    .container{
+      text-align:center;
+      width:100%;
+      max-width:1100px;
+      padding:40px 20px;
     }
 
-    h1 {
-      font-size: 48px;
-      letter-spacing: 4px;
-      margin-bottom: 10px;
+    h1{
+      font-size:42px;
+      letter-spacing:2px;
+      margin-bottom:10px;
     }
 
-    .subtitle {
-      color: #aaa;
-      letter-spacing: 2px;
-      margin-bottom: 60px;
+    .subtitle{
+      font-size:14px;
+      opacity:0.7;
+      letter-spacing:2px;
+      margin-bottom:50px;
     }
 
-    .cards {
-      display: flex;
-      justify-content: center;
-      gap: 60px;
-      flex-wrap: wrap;
+    /* cards wrapper */
+    .cards{
+      display:flex;
+      justify-content:center;
+      gap:50px;
+      flex-wrap:wrap;
     }
 
-    .card {
-      width: 320px;
-      background: linear-gradient(145deg, #111, #050505);
-      border-radius: 20px;
-      padding: 25px;
-      box-shadow:
-        0 0 30px rgba(0,0,0,0.8),
-        inset 0 0 20px rgba(255,255,255,0.03);
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    /* card */
+    .card{
+      width:300px;
+      height:420px;
+      perspective:1200px;
     }
 
-    .card:hover {
-      transform: translateY(-15px) scale(1.03);
-      box-shadow:
-        0 0 60px rgba(0,150,255,0.3),
-        0 0 120px rgba(255,0,0,0.15);
+    .card-inner{
+      width:100%;
+      height:100%;
+      background:rgba(255,255,255,0.05);
+      border-radius:22px;
+      padding:25px;
+      box-shadow:0 40px 80px rgba(0,0,0,0.8);
+      transform-style:preserve-3d;
+      transition:transform 0.5s ease;
     }
 
-    .card img {
-      width: 100%;
-      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.9));
-      transition: transform 0.4s ease;
+    .card:hover .card-inner{
+      transform:rotateY(15deg) rotateX(10deg) scale(1.06);
     }
 
-    .card:hover img {
-      transform: rotate(-2deg) scale(1.05);
+    .card img{
+      width:100%;
+      height:220px;
+      object-fit:contain;
+      transform:translateZ(60px);
+      filter:drop-shadow(0 25px 30px rgba(0,0,0,0.8));
     }
 
-    .edition {
-      margin-top: 20px;
-      font-size: 18px;
-      letter-spacing: 2px;
+    .edition{
+      margin-top:25px;
+      font-weight:600;
+      letter-spacing:2px;
+      transform:translateZ(40px);
     }
 
-    .marvel {
-      color: #ff3b3b;
-      text-shadow: 0 0 20px rgba(255,60,60,0.7);
+    .marvel{ color:#ff3b3b; }
+    .white{ color:#4fd1ff; }
+
+    .btn{
+      margin-top:25px;
+      padding:12px 30px;
+      border:none;
+      border-radius:30px;
+      background:linear-gradient(135deg,#ff006a,#6a00ff);
+      color:white;
+      font-size:14px;
+      cursor:pointer;
+      transform:translateZ(50px);
+      box-shadow:0 15px 35px rgba(0,0,0,0.7);
+      transition:transform 0.3s ease;
     }
 
-    .white {
-      color: #00c8ff;
-      text-shadow: 0 0 20px rgba(0,200,255,0.7);
+    .btn:hover{
+      transform:translateZ(50px) scale(1.1);
     }
 
-    .btn {
-      margin-top: 20px;
-      padding: 12px 30px;
-      border-radius: 30px;
-      border: none;
-      cursor: pointer;
-      background: linear-gradient(135deg, #ff003c, #0066ff);
-      color: #fff;
-      letter-spacing: 2px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    footer{
+      margin-top:60px;
+      font-size:12px;
+      opacity:0.5;
     }
 
-    .btn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 30px rgba(0,150,255,0.7);
+    @media(max-width:700px){
+      h1{font-size:32px;}
+      .cards{gap:35px;}
     }
+  </style></head>
+<body>  <div class="container">
+    <h1>I AM SHUBHAM</h1>
+    <p class="subtitle">MARVEL SNEAKERS · UNREAL 3D EDITION</p><div class="cards">
 
-    footer {
-      margin-top: 80px;
-      font-size: 14px;
-      color: #666;
-    }
-  </style>
-</head>
-
-<body>
-
-  <div class="container">
-    <h1>UNREAL SNEAKERS</h1>
-    <p class="subtitle">MARVEL SNEAKERS · UNREAL 3D EDITION</p>
-
-    <div class="cards">
-
-      <!-- MARVEL CARD -->
-      <div class="card">
-        <img src="marvel.png" alt="Marvel Sneaker">
-        <div class="edition marvel">MARVEL EDITION</div>
-        <button class="btn">EXPLORE</button>
-      </div>
-
-      <!-- WHITE CARD -->
-      <div class="card">
-        <img src="white.jpg" alt="White Sneaker">
-        <div class="edition white">WHITE EDITION</div>
-        <button class="btn">EXPLORE</button>
-      </div>
-
+  <!-- MARVEL CARD -->
+  <div class="card">
+    <div class="card-inner">
+      <img src="marvel.png" alt="Marvel Sneaker">
+      <div class="edition marvel">MARVEL EDITION</div>
+      <button class="btn">EXPLORE</button>
     </div>
-
-    <footer>
-      © 2026 · Experimental 3D Sneaker Website
-    </footer>
   </div>
 
-</body>
+  <!-- WHITE CARD -->
+  <div class="card">
+    <div class="card-inner">
+      <img src="white.png" alt="White Sneaker">
+      <div class="edition white">WHITE EDITION</div>
+      <button class="btn">EXPLORE</button>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 · Experimental 3D Sneaker Website
+</footer>
+
+  </div></body>
 </html>
