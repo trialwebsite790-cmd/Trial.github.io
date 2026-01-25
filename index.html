@@ -1,126 +1,67 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>I Am Shubham — Cinematic 3D</title><!-- GSAP + Three.js --><script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script><script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800&display=swap" rel="stylesheet"><style>
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{height:100%;font-family:'Inter',sans-serif;background:#030409;overflow:hidden;color:#fff}
-canvas{display:block}
+  <meta charset="UTF-8">
+  <title>Marvel Sneakers</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-/* OVERLAY TEXT */
-.overlay{
-  position:fixed;inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  pointer-events:none;
-}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-.title{
-  font-size:clamp(3rem,10vw,7rem);
-  font-weight:800;
-  letter-spacing:6px;
-  text-align:center;
-  mix-blend-mode:screen;
-}
+    body {
+      background: radial-gradient(circle at top, #1a1a1a, #000);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+    }
 
-.subtitle{
-  position:fixed;
-  bottom:40px;width:100%;
-  text-align:center;
-  font-size:.7rem;
-  letter-spacing:3px;
-  opacity:.7;
-}
+    h1 {
+      letter-spacing: 2px;
+      font-size: 2rem;
+      opacity: 0.9;
+    }
 
-/* LOADER */
-.loader{
-  position:fixed;inset:0;
-  background:#030409;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:10;
-}
-.loader span{letter-spacing:4px;font-size:.8rem;opacity:.7}
-</style></head>
-<body><div class="loader" id="loader"><span>LOADING EXPERIENCE</span></div><div class="overlay">
-  <div class="title">I&nbsp;AM<br>SHUBHAM</div>
-</div>
-<div class="subtitle">TAP • MOVE • FEEL</div><script>
-// SCENE
-const scene = new THREE.Scene();
-scene.fog = new THREE.Fog(0x030409, 6, 18);
+    .shoe {
+      width: 300px;
+      max-width: 80vw;
+      transition: transform 0.4s ease, filter 0.4s ease;
+      filter: drop-shadow(0 25px 45px rgba(0,0,0,0.9));
+    }
 
-// CAMERA
-const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 100);
-camera.position.z = 8;
+    .shoe:hover {
+      transform: scale(1.07);
+      filter: drop-shadow(0 35px 60px rgba(255,0,0,0.35));
+    }
 
-// RENDERER
-const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
-document.body.appendChild(renderer.domElement);
+    .label {
+      font-size: 0.85rem;
+      opacity: 0.7;
+      letter-spacing: 1px;
+      margin-bottom: -25px;
+    }
+  </style>
+</head>
 
-// LIGHTS
-const ambient = new THREE.AmbientLight(0xffffff,.4);
-scene.add(ambient);
+<body>
 
-const point = new THREE.PointLight(0x3b82f6,2,20);
-point.position.set(2,3,5);
-scene.add(point);
+  <h1>MARVEL SNEAKERS</h1>
 
-// OBJECT (CENTER CINEMATIC SHAPE)
-const geometry = new THREE.IcosahedronGeometry(1.8,1);
-const material = new THREE.MeshStandardMaterial({
-  color:0x0f172a,
-  metalness:.9,
-  roughness:.15,
-  emissive:0x1e3a8a,
-  emissiveIntensity:.35
-});
-const mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh);
+  <!-- MARVEL SNEAKER (TOP / HERO) -->
+  <div class="label">MARVEL EDITION</div>
+  <img src="images/marvel.png" class="shoe" alt="Marvel Sneaker">
 
-// FLOAT RINGS
-const ringGeo = new THREE.TorusGeometry(2.8,.02,16,100);
-const ringMat = new THREE.MeshBasicMaterial({color:0x3b82f6,transparent:true,opacity:.35});
-const ring = new THREE.Mesh(ringGeo, ringMat);
-ring.rotation.x = Math.PI/2;
-scene.add(ring);
+  <!-- WHITE SNEAKER (BOTTOM) -->
+  <div class="label">WHITE EDITION</div>
+  <img src="images/white.jpg" class="shoe" alt="White Sneaker">
 
-// MOUSE INTERACTION
-const mouse = {x:0,y:0};
-window.addEventListener('mousemove',e=>{
-  mouse.x = (e.clientX/window.innerWidth-.5)*2;
-  mouse.y = (e.clientY/window.innerHeight-.5)*2;
-});
-
-// ANIMATE
-function animate(){
-  mesh.rotation.y += 0.004;
-  mesh.rotation.x += 0.002;
-  ring.rotation.z -= 0.002;
-
-  mesh.rotation.y += mouse.x*0.02;
-  mesh.rotation.x += mouse.y*0.02;
-
-  renderer.render(scene,camera);
-  requestAnimationFrame(animate);
-}
-
-// INTRO TIMELINE
-gsap.from(mesh.scale,{x:0,y:0,z:0,duration:1.6,ease:'expo.out'});
-gsap.from('.title',{opacity:0,y:40,duration:1.4,delay:.6});
-gsap.to('#loader',{opacity:0,delay:1.4,onComplete:()=>document.getElementById('loader').remove()});
-
-animate();
-
-// RESIZE
-window.addEventListener('resize',()=>{
-  camera.aspect = window.innerWidth/window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth,window.innerHeight);
-});
-</script></body>
+</body>
 </html>
