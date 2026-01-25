@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>I am Shubham | Marvel Sneakers</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Marvel Sneakers | 3D Edition</title>
 
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
+      font-family: "Segoe UI", sans-serif;
     }
 
     body {
@@ -20,143 +20,129 @@
       overflow-x: hidden;
     }
 
-    /* ---------- HEADER ---------- */
-    header {
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 80px 20px;
       text-align: center;
-      padding: 40px 20px;
     }
 
-    header h1 {
-      font-size: 2.8rem;
-      letter-spacing: 2px;
+    h1 {
+      font-size: 48px;
+      letter-spacing: 4px;
       margin-bottom: 10px;
     }
 
-    header p {
-      opacity: 0.7;
-      letter-spacing: 3px;
-      font-size: 0.9rem;
+    .subtitle {
+      color: #aaa;
+      letter-spacing: 2px;
+      margin-bottom: 60px;
     }
 
-    /* ---------- HERO SECTION ---------- */
-    .hero {
+    .cards {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 80px;
-      padding: 60px 20px 120px;
+      justify-content: center;
+      gap: 60px;
+      flex-wrap: wrap;
     }
 
     .card {
+      width: 320px;
+      background: linear-gradient(145deg, #111, #050505);
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow:
+        0 0 30px rgba(0,0,0,0.8),
+        inset 0 0 20px rgba(255,255,255,0.03);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-15px) scale(1.03);
+      box-shadow:
+        0 0 60px rgba(0,150,255,0.3),
+        0 0 120px rgba(255,0,0,0.15);
+    }
+
+    .card img {
       width: 100%;
-      max-width: 380px;
-      perspective: 1200px;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.9));
+      transition: transform 0.4s ease;
     }
 
-    .card-inner {
-      background: linear-gradient(145deg, #0a0a0a, #1a1a1a);
-      border-radius: 24px;
-      padding: 30px;
-      text-align: center;
-      transform-style: preserve-3d;
-      transition: transform 0.3s ease;
-      box-shadow: 0 40px 80px rgba(0,0,0,0.7);
+    .card:hover img {
+      transform: rotate(-2deg) scale(1.05);
     }
 
-    .card:hover .card-inner {
-      transform: rotateX(8deg) rotateY(-8deg) scale(1.03);
-    }
-
-    .card h2 {
-      margin-bottom: 20px;
+    .edition {
+      margin-top: 20px;
+      font-size: 18px;
       letter-spacing: 2px;
-      font-size: 1.4rem;
     }
 
-    .shoe-img {
-      width: 100%;
-      max-width: 300px;
-      margin: auto;
-      transform: translateZ(50px);
-      filter: drop-shadow(0 30px 50px rgba(0,0,0,0.8));
-    }
-
-    /* ---------- MARVEL GLOW ---------- */
     .marvel {
-      position: relative;
+      color: #ff3b3b;
+      text-shadow: 0 0 20px rgba(255,60,60,0.7);
     }
 
-    .marvel::after {
-      content: "";
-      position: absolute;
-      inset: -10px;
-      border-radius: 30px;
-      background: linear-gradient(90deg, red, gold, cyan);
-      filter: blur(40px);
-      opacity: 0.6;
-      z-index: -1;
-      animation: glow 6s linear infinite;
-    }
-
-    @keyframes glow {
-      0% { filter: blur(40px) hue-rotate(0deg); }
-      100% { filter: blur(40px) hue-rotate(360deg); }
-    }
-
-    /* ---------- WHITE EDITION ---------- */
     .white {
-      background: linear-gradient(145deg, #f2f2f2, #cfcfcf);
-      color: #111;
+      color: #00c8ff;
+      text-shadow: 0 0 20px rgba(0,200,255,0.7);
     }
 
-    /* ---------- FOOTER ---------- */
+    .btn {
+      margin-top: 20px;
+      padding: 12px 30px;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ff003c, #0066ff);
+      color: #fff;
+      letter-spacing: 2px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 30px rgba(0,150,255,0.7);
+    }
+
     footer {
-      text-align: center;
-      padding: 30px;
-      font-size: 0.8rem;
-      opacity: 0.6;
-    }
-
-    /* ---------- RESPONSIVE ---------- */
-    @media (min-width: 768px) {
-      .hero {
-        flex-direction: row;
-        justify-content: center;
-      }
+      margin-top: 80px;
+      font-size: 14px;
+      color: #666;
     }
   </style>
 </head>
 
 <body>
 
-  <header>
+  <div class="container">
     <h1>I AM SHUBHAM</h1>
-    <p>MARVEL SNEAKERS EDITION</p>
-  </header>
+    <p class="subtitle">MARVEL SNEAKERS · UNREAL 3D EDITION</p>
 
-  <section class="hero">
+    <div class="cards">
 
-    <!-- MARVEL CARD -->
-    <div class="card">
-      <div class="card-inner marvel">
-        <h2>MARVEL EDITION</h2>
-        <img src="images/marvel.png" alt="Marvel Sneakers" class="shoe-img">
+      <!-- MARVEL CARD -->
+      <div class="card">
+        <img src="images/marvel.png" alt="Marvel Sneaker">
+        <div class="edition marvel">MARVEL EDITION</div>
+        <button class="btn">EXPLORE</button>
       </div>
+
+      <!-- WHITE CARD -->
+      <div class="card">
+        <img src="images/white.jpg" alt="White Sneaker">
+        <div class="edition white">WHITE EDITION</div>
+        <button class="btn">EXPLORE</button>
+      </div>
+
     </div>
 
-    <!-- WHITE CARD -->
-    <div class="card">
-      <div class="card-inner white">
-        <h2>WHITE EDITION</h2>
-        <img src="images/white.jpg" alt="White Sneakers" class="shoe-img">
-      </div>
-    </div>
-
-  </section>
-
-  <footer>
-    © 2026 | Designed by Shubham | Unreal Sneaker Concept
-  </footer>
+    <footer>
+      © 2026 · Experimental 3D Sneaker Website
+    </footer>
+  </div>
 
 </body>
 </html>
