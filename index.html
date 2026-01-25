@@ -1,0 +1,98 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AVFX Sneaker 3D Experience</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Montserrat',sans-serif;background:#05070c;color:#fff;overflow-x:hidden}
+canvas{position:fixed;top:0;left:0;z-index:-1}/* HERO */ .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:18px} .hero h1{font-size:clamp(3rem,10vw,6rem);font-weight:800;letter-spacing:6px} .hero h2{font-size:.9rem;letter-spacing:4px;color:#9fb5ff} .hero p{max-width:520px;font-size:.85rem;opacity:.85}
+
+/* SECTIONS */ .section{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:40px} .section h3{font-size:2.2rem;margin-bottom:10px} .section span{font-size:.8rem;letter-spacing:3px;color:#9fb5ff}
+
+/* CTA */ .cta{min-height:80vh;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:20px} .cta button{padding:14px 36px;border-radius:40px;border:none;font-size:.9rem;letter-spacing:2px;background:linear-gradient(90deg,#6aa7ff,#9fb5ff);cursor:pointer}
+
+footer{text-align:center;font-size:.65rem;letter-spacing:2px;opacity:.6;padding:20px} </style>
+
+</head>
+<body><canvas id="three"></canvas>
+
+<section class="hero">
+<h1>AVFX</h1>
+<h2>ARTISTIC VISUAL EFFECTS</h2>
+<p>Not a normal website. A 3D product experience designed to feel premium, interactive and different.</p>
+</section><section class="section">
+<div>
+<h3>ENGINEERED SOLE</h3>
+<span>GRIP • CONTROL • DEPTH</span>
+</div>
+</section><section class="section">
+<div>
+<h3>BREATHABLE UPPER</h3>
+<span>LIGHTWEIGHT • FLEXIBLE</span>
+</div>
+</section><section class="cta">
+<h3>ENTER THE DROP</h3>
+<button>EXPLORE SNEAKER</button>
+</section><footer>© AVFX 3D Sneaker Concept</footer><script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js"></script><script>
+const canvas = document.getElementById('three');
+const scene = new THREE.Scene();
+
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 100);
+camera.position.z = 5;
+
+const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
+
+// LIGHTS
+const light = new THREE.DirectionalLight(0x9fb5ff, 1.2);
+light.position.set(5,5,5);
+scene.add(light);
+scene.add(new THREE.AmbientLight(0x404040));
+
+// PLACEHOLDER SNEAKER (Stylized)
+const group = new THREE.Group();
+
+const soleGeo = new THREE.BoxGeometry(3,0.4,1);
+const soleMat = new THREE.MeshStandardMaterial({color:0x111827, roughness:.3, metalness:.6});
+const sole = new THREE.Mesh(soleGeo, soleMat);
+sole.position.y = -0.5;
+
+const upperGeo = new THREE.BoxGeometry(2.6,0.8,0.9);
+const upperMat = new THREE.MeshStandardMaterial({color:0x6aa7ff, roughness:.2, metalness:.4});
+const upper = new THREE.Mesh(upperGeo, upperMat);
+upper.position.y = 0.1;
+
+const laceGeo = new THREE.TorusGeometry(0.3,0.05,16,100);
+const laceMat = new THREE.MeshStandardMaterial({color:0xffffff});
+const lace = new THREE.Mesh(laceGeo, laceMat);
+lace.rotation.x = Math.PI/2;
+lace.position.set(0,0.3,0.46);
+
+group.add(sole, upper, lace);
+scene.add(group);
+
+// ANIMATION
+function animate(){
+requestAnimationFrame(animate);
+group.rotation.y += 0.004;
+renderer.render(scene,camera);
+}
+animate();
+
+// SCROLL CAMERA EFFECT
+window.addEventListener('scroll',()=>{
+const scrollY = window.scrollY;
+group.rotation.y = scrollY * 0.002;
+camera.position.z = 5 + scrollY * 0.002;
+});
+
+window.addEventListener('resize',()=>{
+camera.aspect = window.innerWidth/window.innerHeight;
+camera.updateProjectionMatrix();
+renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script></body>
+</html>
