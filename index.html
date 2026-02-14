@@ -1,151 +1,82 @@
 <!DOCTYPE html><html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Valentine's Day VAISHU ❤️</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }body {
-        height: 100vh;
-        background: linear-gradient(135deg, #ff4e88, #ff9a9e);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Vaishu ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+  background:linear-gradient(-45deg,#ff4e88,#ff6a9f,#ff9a9e,#fecfef);
+  background-size:400% 400%;
+  animation:bgMove 10s ease infinite;
+}
+@keyframes bgMove{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}.container{ position:relative; text-align:center; }
 
-    .card {
-        background: white;
-        width: 90%;
-        max-width: 500px;
-        padding: 40px 30px;
-        border-radius: 20px;
-        text-align: center;
-        box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-        position: relative;
-        animation: float 3s ease-in-out infinite;
-    }
+.envelope{ width:320px; height:200px; background:#ff4e88; position:relative; border-radius:10px; cursor:pointer; transition:0.5s; box-shadow:0 20px 50px rgba(0,0,0,0.3); }
 
-    @keyframes float {
-        0% { transform: translateY(0px); }
-        50% { transform: translateY(-10px); }
-        100% { transform: translateY(0px); }
-    }
+.envelope:before{ content:""; position:absolute; top:0; left:0; width:100%; height:100%; background:#e63e75; clip-path:polygon(0 0,50% 60%,100% 0); transition:0.5s; }
 
-    h1 {
-        font-family: 'Great Vibes', cursive;
-        font-size: 42px;
-        color: #ff4e88;
-        margin-bottom: 10px;
-    }
+.letter{ position:absolute; width:300px; height:180px; background:white; top:10px; left:10px; border-radius:10px; padding:20px; opacity:0; transform:translateY(20px); transition:0.6s; }
 
-    h2 {
-        font-size: 24px;
-        color: #444;
-        margin-bottom: 20px;
-    }
+.letter h1{ font-family:'Great Vibes',cursive; color:#ff4e88; font-size:32px; margin-bottom:10px; }
 
-    p {
-        font-size: 16px;
-        color: #555;
-        line-height: 1.6;
-    }
+.letter p{ font-size:14px; color:#444; line-height:1.5; }
 
-    .heart {
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        background: #ff4e88;
-        transform: rotate(45deg);
-        animation: fall 5s linear infinite;
-    }
+.open .letter{ opacity:1; transform:translateY(-120px); }
 
-    .heart::before,
-    .heart::after {
-        content: '';
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        background: #ff4e88;
-        border-radius: 50%;
-    }
+.open:before{ transform:rotateX(180deg); }
 
-    .heart::before {
-        top: -10px;
-        left: 0;
-    }
+button{ margin-top:20px; padding:10px 20px; border:none; border-radius:25px; background:white; color:#ff4e88; font-weight:600; cursor:pointer; transition:0.3s; }
 
-    .heart::after {
-        left: -10px;
-        top: 0;
-    }
+button:hover{ background:#ff4e88; color:white; transform:scale(1.1); }
 
-    @keyframes fall {
-        0% {
-            top: -10%;
-            opacity: 1;
-        }
-        100% {
-            top: 110%;
-            opacity: 0;
-        }
-    }
+.heart{ position:absolute; font-size:20px; animation:floatUp 5s linear infinite; }
 
-    button {
-        margin-top: 25px;
-        padding: 12px 25px;
-        border: none;
-        border-radius: 25px;
-        background: #ff4e88;
-        color: white;
-        font-size: 15px;
-        cursor: pointer;
-        transition: 0.3s;
-    }
+@keyframes floatUp{ 0%{transform:translateY(100vh);opacity:1;} 100%{transform:translateY(-10vh);opacity:0;} }
 
-    button:hover {
-        background: #e63e75;
-        transform: scale(1.05);
-    }
-</style>
+.music{ position:absolute; bottom:20px; font-size:12px; color:white; } </style>
 
 </head>
-<body><div class="card">
-    <h1>Happy Valentine's Day</h1>
-    <h2>VAISHU ❤️</h2>
-    <p>
-        You make ordinary days feel special without even trying.  
-        Your smile, your vibe, your presence — everything about you  
-        just feels warm and comforting.  
-        I’m really lucky to know you.  
-        Stay the same beautiful soul you are.
-    </p>
-    <button onclick="showMessage()">Click for a Surprise 💌</button>
+<body><div class="container">
+  <div class="envelope" onclick="openLetter(this)">
+    <div class="letter">
+      <h1>Vaishu ❤️</h1>
+      <p>
+        I don’t know how you do it, but you make everything feel softer and better.
+        Even normal conversations with you stay in my mind longer than they should.If today is about love, then I just want to say —
+    I’m really glad you exist in my life.
+  </p>
 </div>
 
-<script>
-    function showMessage() {
-        alert("Vaishu, you are more special than you think. 💖");
-    }
+  </div>
+  <button onclick="extraSurprise()">Tap for Surprise ✨</button>
+</div><div class="music">Click the envelope 💌</div><script>
+function openLetter(el){
+  el.classList.toggle('open');
+}
 
-    // Create floating hearts
-    setInterval(() => {
-        const heart = document.createElement('div');
-        heart.classList.add('heart');
-        heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
-        document.body.appendChild(heart);
+function extraSurprise(){
+  alert("You deserve more than just one Valentine’s Day. 💖");
+}
 
-        setTimeout(() => {
-            heart.remove();
-        }, 5000);
-    }, 300);
-</script>
-
-</body>
+setInterval(()=>{
+  const heart=document.createElement('div');
+  heart.classList.add('heart');
+  heart.innerHTML="❤️";
+  heart.style.left=Math.random()*100+"vw";
+  heart.style.animationDuration=(Math.random()*2+3)+"s";
+  document.body.appendChild(heart);
+  setTimeout(()=>{heart.remove();},5000);
+},400);
+</script></body>
 </html>
