@@ -1,0 +1,151 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Valentine's Day Vaishu ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }body {
+        height: 100vh;
+        background: linear-gradient(135deg, #ff4e88, #ff9a9e);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .card {
+        background: white;
+        width: 90%;
+        max-width: 500px;
+        padding: 40px 30px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        position: relative;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+
+    h1 {
+        font-family: 'Great Vibes', cursive;
+        font-size: 42px;
+        color: #ff4e88;
+        margin-bottom: 10px;
+    }
+
+    h2 {
+        font-size: 24px;
+        color: #444;
+        margin-bottom: 20px;
+    }
+
+    p {
+        font-size: 16px;
+        color: #555;
+        line-height: 1.6;
+    }
+
+    .heart {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: #ff4e88;
+        transform: rotate(45deg);
+        animation: fall 5s linear infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: #ff4e88;
+        border-radius: 50%;
+    }
+
+    .heart::before {
+        top: -10px;
+        left: 0;
+    }
+
+    .heart::after {
+        left: -10px;
+        top: 0;
+    }
+
+    @keyframes fall {
+        0% {
+            top: -10%;
+            opacity: 1;
+        }
+        100% {
+            top: 110%;
+            opacity: 0;
+        }
+    }
+
+    button {
+        margin-top: 25px;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 25px;
+        background: #ff4e88;
+        color: white;
+        font-size: 15px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #e63e75;
+        transform: scale(1.05);
+    }
+</style>
+
+</head>
+<body><div class="card">
+    <h1>Happy Valentine's Day</h1>
+    <h2>Vaishu ❤️</h2>
+    <p>
+        You make ordinary days feel special without even trying.  
+        Your smile, your vibe, your presence — everything about you  
+        just feels warm and comforting.  
+        I’m really lucky to know you.  
+        Stay the same beautiful soul you are.
+    </p>
+    <button onclick="showMessage()">Click for a Surprise 💌</button>
+</div>
+
+<script>
+    function showMessage() {
+        alert("Vaishu, you are more special than you think. 💖");
+    }
+
+    // Create floating hearts
+    setInterval(() => {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 5000);
+    }, 300);
+</script>
+
+</body>
+</html>
