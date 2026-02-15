@@ -1,82 +1,115 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Bhagyashree ❤️</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  overflow:hidden;
-  background:linear-gradient(-45deg,#ff4e88,#ff6a9f,#ff9a9e,#fecfef);
-  background-size:400% 400%;
-  animation:bgMove 10s ease infinite;
-}
-@keyframes bgMove{
-  0%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-  100%{background-position:0% 50%;}
-}.container{ position:relative; text-align:center; }
+    <title>Click The Box Game</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            overflow: hidden;
+        }
 
-.envelope{ width:320px; height:200px; background:#ff4e88; position:relative; border-radius:10px; cursor:pointer; transition:0.5s; box-shadow:0 20px 50px rgba(0,0,0,0.3); }
+        h1 {
+            margin-top: 20px;
+        }
 
-.envelope:before{ content:""; position:absolute; top:0; left:0; width:100%; height:100%; background:#e63e75; clip-path:polygon(0 0,50% 60%,100% 0); transition:0.5s; }
+        #score, #timer {
+            font-size: 20px;
+            margin: 10px;
+        }
 
-.letter{ position:absolute; width:300px; height:180px; background:white; top:10px; left:10px; border-radius:10px; padding:20px; opacity:0; transform:translateY(20px); transition:0.6s; }
+        #gameArea {
+            position: relative;
+            width: 100%;
+            height: 70vh;
+            border: 2px solid white;
+            margin-top: 20px;
+        }
 
-.letter h1{ font-family:'Great Vibes',cursive; color:#ff4e88; font-size:32px; margin-bottom:10px; }
+        #box {
+            width: 60px;
+            height: 60px;
+            background-color: yellow;
+            position: absolute;
+            cursor: pointer;
+            border-radius: 10px;
+        }
 
-.letter p{ font-size:14px; color:#444; line-height:1.5; }
-
-.open .letter{ opacity:1; transform:translateY(-120px); }
-
-.open:before{ transform:rotateX(180deg); }
-
-button{ margin-top:20px; padding:10px 20px; border:none; border-radius:25px; background:white; color:#ff4e88; font-weight:600; cursor:pointer; transition:0.3s; }
-
-button:hover{ background:#ff4e88; color:white; transform:scale(1.1); }
-
-.heart{ position:absolute; font-size:20px; animation:floatUp 5s linear infinite; }
-
-@keyframes floatUp{ 0%{transform:translateY(100vh);opacity:1;} 100%{transform:translateY(-10vh);opacity:0;} }
-
-.music{ position:absolute; bottom:20px; font-size:12px; color:white; } </style>
-
+        #startBtn {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
 </head>
-<body><div class="container">
-  <div class="envelope" onclick="openLetter(this)">
-    <div class="letter">
-      <h1>Bhagyashree ❤️</h1>
-      <p>
-        I don’t know how you do it, but you make everything feel softer and better.
-        Even normal conversations with you stay in my mind longer than they should.If today is about love, then I just want to say —
-    I’m really glad you exist in my life.
-  </p>
-</div>
+<body>
 
-  </div>
-  <button onclick="extraSurprise()">Tap for Surprise ✨</button>
-</div><div class="music">Click the envelope 💌</div><script>
-function openLetter(el){
-  el.classList.toggle('open');
-}
+    <h1>🎯 Click The Moving Box</h1>
+    <div id="score">Score: 0</div>
+    <div id="timer">Time: 30</div>
+    <button id="startBtn">Start Game</button>
 
-function extraSurprise(){
-  alert("You deserve more than just one Valentine’s Day. 💖");
-}
+    <div id="gameArea">
+        <div id="box"></div>
+    </div>
 
-setInterval(()=>{
-  const heart=document.createElement('div');
-  heart.classList.add('heart');
-  heart.innerHTML="❤️";
-  heart.style.left=Math.random()*100+"vw";
-  heart.style.animationDuration=(Math.random()*2+3)+"s";
-  document.body.appendChild(heart);
-  setTimeout(()=>{heart.remove();},5000);
-},400);
-</script></body>
+<script>
+    const box = document.getElementById("box");
+    const scoreDisplay = document.getElementById("score");
+    const timerDisplay = document.getElementById("timer");
+    const startBtn = document.getElementById("startBtn");
+    const gameArea = document.getElementById("gameArea");
+
+    let score = 0;
+    let timeLeft = 30;
+    let gameInterval;
+    let timerInterval;
+
+    function moveBox() {
+        const maxX = gameArea.clientWidth - box.clientWidth;
+        const maxY = gameArea.clientHeight - box.clientHeight;
+
+        const randomX = Math.floor(Math.random() * maxX);
+        const randomY = Math.floor(Math.random() * maxY);
+
+        box.style.left = randomX + "px";
+        box.style.top = randomY + "px";
+    }
+
+    box.addEventListener("click", function() {
+        score++;
+        scoreDisplay.innerText = "Score: " + score;
+        moveBox();
+    });
+
+    function startGame() {
+        score = 0;
+        timeLeft = 30;
+        scoreDisplay.innerText = "Score: 0";
+        timerDisplay.innerText = "Time: 30";
+
+        moveBox();
+
+        gameInterval = setInterval(moveBox, 800);
+
+        timerInterval = setInterval(function() {
+            timeLeft--;
+            timerDisplay.innerText = "Time: " + timeLeft;
+
+            if (timeLeft <= 0) {
+                clearInterval(gameInterval);
+                clearInterval(timerInterval);
+                alert("Game Over! Your Score: " + score);
+            }
+        }, 1000);
+    }
+
+    startBtn.addEventListener("click", startGame);
+</script>
+
+</body>
 </html>
