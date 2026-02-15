@@ -1,114 +1,157 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Click The Box Game</title>
+    <title>Mini Shooting Game</title>
     <style>
         body {
-            text-align: center;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
+            margin: 0;
+            background: black;
             overflow: hidden;
+            color: white;
+            font-family: Arial;
         }
 
-        h1 {
-            margin-top: 20px;
-        }
-
-        #score, #timer {
-            font-size: 20px;
-            margin: 10px;
-        }
-
-        #gameArea {
+        #game {
             position: relative;
-            width: 100%;
-            height: 70vh;
-            border: 2px solid white;
-            margin-top: 20px;
+            width: 100vw;
+            height: 100vh;
         }
 
-        #box {
-            width: 60px;
-            height: 60px;
-            background-color: yellow;
+        #player {
             position: absolute;
-            cursor: pointer;
-            border-radius: 10px;
+            bottom: 20px;
+            left: 50%;
+            width: 50px;
+            height: 20px;
+            background: cyan;
+            transform: translateX(-50%);
         }
 
-        #startBtn {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
+        .bullet {
+            position: absolute;
+            width: 5px;
+            height: 15px;
+            background: yellow;
+        }
+
+        .enemy {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: red;
+            top: 0;
+        }
+
+        #info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
         }
     </style>
 </head>
 <body>
 
-    <h1>🎯 Click The Moving Box</h1>
-    <div id="score">Score: 0</div>
-    <div id="timer">Time: 30</div>
-    <button id="startBtn">Start Game</button>
-
-    <div id="gameArea">
-        <div id="box"></div>
+<div id="game">
+    <div id="info">
+        Score: <span id="score">0</span> |
+        Lives: <span id="lives">3</span>
     </div>
+    <div id="player"></div>
+</div>
 
 <script>
-    const box = document.getElementById("box");
-    const scoreDisplay = document.getElementById("score");
-    const timerDisplay = document.getElementById("timer");
-    const startBtn = document.getElementById("startBtn");
-    const gameArea = document.getElementById("gameArea");
+const game = document.getElementById("game");
+const player = document.getElementById("player");
+const scoreDisplay = document.getElementById("score");
+const livesDisplay = document.getElementById("lives");
 
-    let score = 0;
-    let timeLeft = 30;
-    let gameInterval;
-    let timerInterval;
+let score = 0;
+let lives = 3;
+let bullets = [];
+let enemies = [];
 
-    function moveBox() {
-        const maxX = gameArea.clientWidth - box.clientWidth;
-        const maxY = gameArea.clientHeight - box.clientHeight;
+let playerX = window.innerWidth / 2;
 
-        const randomX = Math.floor(Math.random() * maxX);
-        const randomY = Math.floor(Math.random() * maxY);
-
-        box.style.left = randomX + "px";
-        box.style.top = randomY + "px";
+document.addEventListener("keydown", function(e) {
+    if (e.key === "ArrowLeft") {
+        playerX -= 20;
     }
+    if (e.key === "ArrowRight") {
+        playerX += 20;
+    }
+    if (e.key === " ") {
+        shoot();
+    }
+    player.style.left = playerX + "px";
+});
 
-    box.addEventListener("click", function() {
-        score++;
-        scoreDisplay.innerText = "Score: " + score;
-        moveBox();
+function shoot() {
+    let bullet = document.createElement("div");
+    bullet.classList.add("bullet");
+    bullet.style.left = playerX + 22 + "px";
+    bullet.style.bottom = "40px";
+    game.appendChild(bullet);
+    bullets.push(bullet);
+}
+
+function createEnemy() {
+    let enemy = document.createElement("div");
+    enemy.classList.add("enemy");
+    enemy.style.left = Math.random() * (window.innerWidth - 40) + "px";
+    game.appendChild(enemy);
+    enemies.push(enemy);
+}
+
+function gameLoop() {
+
+    bullets.forEach((bullet, bIndex) => {
+        let bulletBottom = parseInt(bullet.style.bottom);
+        bullet.style.bottom = bulletBottom + 10 + "px";
+
+        if (bulletBottom > window.innerHeight) {
+            bullet.remove();
+            bullets.splice(bIndex, 1);
+        }
     });
 
-    function startGame() {
-        score = 0;
-        timeLeft = 30;
-        scoreDisplay.innerText = "Score: 0";
-        timerDisplay.innerText = "Time: 30";
+    enemies.forEach((enemy, eIndex) => {
+        let enemyTop = enemy.offsetTop;
+        enemy.style.top = enemyTop + 3 + "px";
 
-        moveBox();
+        if (enemyTop > window.innerHeight) {
+            enemy.remove();
+            enemies.splice(eIndex, 1);
+            lives--;
+            livesDisplay.innerText = lives;
 
-        gameInterval = setInterval(moveBox, 800);
-
-        timerInterval = setInterval(function() {
-            timeLeft--;
-            timerDisplay.innerText = "Time: " + timeLeft;
-
-            if (timeLeft <= 0) {
-                clearInterval(gameInterval);
-                clearInterval(timerInterval);
-                alert("Game Over! Your Score: " + score);
+            if (lives <= 0) {
+                alert("Game Over! Score: " + score);
+                location.reload();
             }
-        }, 1000);
-    }
+        }
 
-    startBtn.addEventListener("click", startGame);
+        bullets.forEach((bullet, bIndex) => {
+            if (
+                bullet.offsetTop < enemy.offsetTop + 40 &&
+                bullet.offsetTop + 15 > enemy.offsetTop &&
+                bullet.offsetLeft < enemy.offsetLeft + 40 &&
+                bullet.offsetLeft + 5 > enemy.offsetLeft
+            ) {
+                enemy.remove();
+                bullet.remove();
+                enemies.splice(eIndex, 1);
+                bullets.splice(bIndex, 1);
+                score++;
+                scoreDisplay.innerText = score;
+            }
+        });
+    });
+
+    requestAnimationFrame(gameLoop);
+}
+
+setInterval(createEnemy, 1000);
+gameLoop();
 </script>
 
 </body>
