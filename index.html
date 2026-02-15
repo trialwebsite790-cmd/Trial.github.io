@@ -1,157 +1,94 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Mini Shooting Game</title>
+    <title>Chess vs Computer</title>
+
+    <!-- Chessboard CSS -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.css"/>
+
     <style>
         body {
-            margin: 0;
-            background: black;
-            overflow: hidden;
-            color: white;
+            text-align: center;
             font-family: Arial;
+            background: #222;
+            color: white;
         }
 
-        #game {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
+        #board {
+            width: 400px;
+            margin: 20px auto;
         }
 
-        #player {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            width: 50px;
-            height: 20px;
-            background: cyan;
-            transform: translateX(-50%);
-        }
-
-        .bullet {
-            position: absolute;
-            width: 5px;
-            height: 15px;
-            background: yellow;
-        }
-
-        .enemy {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            background: red;
-            top: 0;
-        }
-
-        #info {
-            position: absolute;
-            top: 10px;
-            left: 10px;
+        button {
+            padding: 10px 20px;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
-<div id="game">
-    <div id="info">
-        Score: <span id="score">0</span> |
-        Lives: <span id="lives">3</span>
-    </div>
-    <div id="player"></div>
-</div>
+<h2>♟ Play Chess vs Computer</h2>
+<div id="board"></div>
+<button onclick="resetGame()">Restart Game</button>
+
+<!-- Chess.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.13.4/chess.min.js"></script>
+
+<!-- Chessboard.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard.min.js"></script>
 
 <script>
-const game = document.getElementById("game");
-const player = document.getElementById("player");
-const scoreDisplay = document.getElementById("score");
-const livesDisplay = document.getElementById("lives");
+var board = null
+var game = new Chess()
 
-let score = 0;
-let lives = 3;
-let bullets = [];
-let enemies = [];
+function onDragStart (source, piece) {
+  if (game.game_over()) return false
 
-let playerX = window.innerWidth / 2;
-
-document.addEventListener("keydown", function(e) {
-    if (e.key === "ArrowLeft") {
-        playerX -= 20;
-    }
-    if (e.key === "ArrowRight") {
-        playerX += 20;
-    }
-    if (e.key === " ") {
-        shoot();
-    }
-    player.style.left = playerX + "px";
-});
-
-function shoot() {
-    let bullet = document.createElement("div");
-    bullet.classList.add("bullet");
-    bullet.style.left = playerX + 22 + "px";
-    bullet.style.bottom = "40px";
-    game.appendChild(bullet);
-    bullets.push(bullet);
+  // only allow white moves
+  if (piece.search(/^b/) !== -1) return false
 }
 
-function createEnemy() {
-    let enemy = document.createElement("div");
-    enemy.classList.add("enemy");
-    enemy.style.left = Math.random() * (window.innerWidth - 40) + "px";
-    game.appendChild(enemy);
-    enemies.push(enemy);
+function makeRandomMove () {
+  var possibleMoves = game.moves()
+
+  if (possibleMoves.length === 0) return
+
+  var randomIdx = Math.floor(Math.random() * possibleMoves.length)
+  game.move(possibleMoves[randomIdx])
+  board.position(game.fen())
 }
 
-function gameLoop() {
+function onDrop (source, target) {
+  var move = game.move({
+    from: source,
+    to: target,
+    promotion: 'q'
+  })
 
-    bullets.forEach((bullet, bIndex) => {
-        let bulletBottom = parseInt(bullet.style.bottom);
-        bullet.style.bottom = bulletBottom + 10 + "px";
+  if (move === null) return 'snapback'
 
-        if (bulletBottom > window.innerHeight) {
-            bullet.remove();
-            bullets.splice(bIndex, 1);
-        }
-    });
-
-    enemies.forEach((enemy, eIndex) => {
-        let enemyTop = enemy.offsetTop;
-        enemy.style.top = enemyTop + 3 + "px";
-
-        if (enemyTop > window.innerHeight) {
-            enemy.remove();
-            enemies.splice(eIndex, 1);
-            lives--;
-            livesDisplay.innerText = lives;
-
-            if (lives <= 0) {
-                alert("Game Over! Score: " + score);
-                location.reload();
-            }
-        }
-
-        bullets.forEach((bullet, bIndex) => {
-            if (
-                bullet.offsetTop < enemy.offsetTop + 40 &&
-                bullet.offsetTop + 15 > enemy.offsetTop &&
-                bullet.offsetLeft < enemy.offsetLeft + 40 &&
-                bullet.offsetLeft + 5 > enemy.offsetLeft
-            ) {
-                enemy.remove();
-                bullet.remove();
-                enemies.splice(eIndex, 1);
-                bullets.splice(bIndex, 1);
-                score++;
-                scoreDisplay.innerText = score;
-            }
-        });
-    });
-
-    requestAnimationFrame(gameLoop);
+  window.setTimeout(makeRandomMove, 250)
 }
 
-setInterval(createEnemy, 1000);
-gameLoop();
+function onSnapEnd () {
+  board.position(game.fen())
+}
+
+var config = {
+  draggable: true,
+  position: 'start',
+  onDragStart: onDragStart,
+  onDrop: onDrop,
+  onSnapEnd: onSnapEnd
+}
+
+board = Chessboard('board', config)
+
+function resetGame(){
+  game.reset()
+  board.start()
+}
 </script>
 
 </body>
