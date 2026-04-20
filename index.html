@@ -1,151 +1,418 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Important Question 💌</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family: 'Segoe UI', sans-serif;
-}
-
-body{
-  height:100vh;
-  background: linear-gradient(135deg,#ff9a9e,#fad0c4,#fad0c4,#ffdde1);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  overflow:hidden;
-}
-
-.container{
-  text-align:center;
-  background:rgba(255,255,255,0.15);
-  padding:40px;
-  border-radius:20px;
-  backdrop-filter: blur(10px);
-  box-shadow:0 20px 50px rgba(0,0,0,0.2);
-  max-width:350px;
-}
-
-h1{
-  margin-bottom:25px;
-  color:#fff;
-}
-
-.buttons{
-  display:flex;
-  justify-content:center;
-  gap:20px;
-}
-
-button{
-  padding:12px 25px;
-  border:none;
-  border-radius:30px;
-  font-size:16px;
-  cursor:pointer;
-  transition:0.3s ease;
-}
-
-#yes{
-  background:#ff4d6d;
-  color:white;
-}
-
-#no{
-  background:white;
-  color:#ff4d6d;
-}
-
-button:hover{
-  transform:scale(1.1);
-}
-
-.result{
-  margin-top:20px;
-  font-size:20px;
-  color:white;
-  display:none;
-}
-
-.heart{
-  position:absolute;
-  font-size:20px;
-  animation:float 5s linear infinite;
-  opacity:0.7;
-}
-
-@keyframes float{
-  0%{transform:translateY(100vh);}
-  100%{transform:translateY(-10vh);}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🤑 AI Dowry Calculator 🤑</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+        
+        :root {
+            --gold: #facc15;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .dowry-gold {
+            color: #facc15;
+            text-shadow: 0 0 20px #facc15;
+        }
+        
+        .card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .question-card {
+            animation: fadeIn 0.5s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result-amount {
+            animation: scaleIn 1s ease forwards;
+        }
+        
+        @keyframes scaleIn {
+            0% { transform: scale(0.8); }
+            100% { transform: scale(1); }
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            animation: confetti-fall 3s linear forwards;
+        }
+    </style>
 </head>
+<body class="bg-gradient-to-br from-amber-950 via-yellow-950 to-amber-950 text-white min-h-screen">
+    <!-- HEADER -->
+    <nav class="bg-black/70 backdrop-blur-md border-b border-yellow-400/30 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-yellow-400 text-black rounded-2xl flex items-center justify-center text-3xl">🤑</div>
+                <h1 class="text-3xl font-bold tracking-tighter dowry-gold">AI DOWRY CALCULATOR</h1>
+            </div>
+            <div class="flex items-center gap-2 text-sm uppercase tracking-widest font-medium">
+                <span class="px-4 py-1 bg-yellow-400/10 text-yellow-400 rounded-3xl border border-yellow-400/30">FOR FUN ONLY</span>
+                <a href="#" onclick="restartQuiz()" 
+                   class="px-6 py-2 bg-white/10 hover:bg-white/20 rounded-3xl flex items-center gap-2 transition-colors">
+                    <span>🔄 Restart</span>
+                </a>
+            </div>
+        </div>
+    </nav>
 
-<body>
+    <div class="max-w-4xl mx-auto px-6 py-12">
+        
+        <!-- HERO / LANDING -->
+        <div id="landing" class="text-center py-20">
+            <div class="inline-flex items-center gap-2 bg-black/60 text-yellow-400 text-sm px-6 py-3 rounded-3xl mb-8 border border-yellow-400/30">
+                <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                AI POWERED • 100% SATIRICAL
+            </div>
+            
+            <h1 class="text-7xl font-bold leading-none mb-6 tracking-tighter">
+                How much <span class="dowry-gold">DOWRY</span><br>will her family pay?
+            </h1>
+            
+            <p class="text-2xl max-w-xl mx-auto mb-10 text-amber-200/90">
+                Answer 10 yes/no questions about your girlfriend's family, background &amp; vibes.<br>
+                <span class="text-yellow-400">Our AI will calculate the exact amount!</span>
+            </p>
 
-<div class="container">
-  <h1 id="question">Do you love me? 💖</h1>
+            <div class="flex justify-center gap-4 mb-12">
+                <button onclick="startQuiz()" 
+                        class="px-12 py-6 bg-yellow-400 hover:bg-amber-300 text-black text-3xl font-semibold rounded-3xl flex items-center gap-4 shadow-2xl shadow-yellow-400/50 transition-all active:scale-95">
+                    <span>START CALCULATION</span>
+                    <span class="text-4xl">🧠</span>
+                </button>
+            </div>
 
-  <div class="buttons">
-    <button id="yes">Yes 💘</button>
-    <button id="no">No 😶</button>
-  </div>
+            <div class="max-w-md mx-auto bg-black/40 border border-yellow-400/20 rounded-3xl p-6 text-left">
+                <div class="flex items-start gap-4">
+                    <div class="text-5xl">⚠️</div>
+                    <div>
+                        <p class="font-semibold text-yellow-400 text-lg mb-2">IMPORTANT DISCLAIMER</p>
+                        <p class="text-sm leading-relaxed text-amber-200/80">
+                            This is a <strong>100% satirical joke website</strong> made purely for fun.<br><br>
+                            Dowry is illegal in India under the Dowry Prohibition Act, 1961.<br>
+                            We do NOT support or encourage dowry in any form.<br>
+                            It's just a silly meme calculator. Love > Money 💛
+                        </p>
+                    </div>
+                </div>
+            </div>
 
-  <div class="result" id="result"></div>
-</div>
+            <p class="text-xs text-amber-300/60 mt-12">Made with ❤️‍🔥 for entertainment • Ready for GitHub</p>
+        </div>
 
-<script>
-const question = document.getElementById("question");
-const result = document.getElementById("result");
-const noBtn = document.getElementById("no");
-const yesBtn = document.getElementById("yes");
+        <!-- QUIZ SECTION -->
+        <div id="quiz" class="hidden">
+            <div class="bg-black/60 backdrop-blur-xl border border-yellow-400/30 rounded-3xl p-8 shadow-2xl">
+                
+                <!-- Progress -->
+                <div class="flex justify-between items-center mb-8">
+                    <div class="text-yellow-400 font-medium">
+                        Question <span id="current-q" class="text-3xl font-bold">1</span>/10
+                    </div>
+                    <div class="flex-1 mx-6 h-2 bg-yellow-400/10 rounded-3xl overflow-hidden">
+                        <div id="progress-bar" class="h-2 bg-yellow-400 w-1/10 transition-all"></div>
+                    </div>
+                    <div onclick="restartQuiz()" class="cursor-pointer text-xs uppercase tracking-widest text-amber-200/60 hover:text-white flex items-center gap-1">
+                        <span>RESET</span>
+                        <span class="text-lg">⟳</span>
+                    </div>
+                </div>
 
-const questions = [
-  "Are you sureee? 🥺",
-  "Think again... really? 😭",
-  "But we look cute together 😌",
-  "Heart tod dogi kya? 💔",
-  "Last chance... sure? 😏"
-];
+                <!-- Question -->
+                <div id="question-text" class="text-4xl font-semibold leading-tight min-h-[160px] flex items-center mb-12 text-center">
+                    Loading your first question...
+                </div>
 
-let count = 0;
+                <!-- Yes / No Buttons -->
+                <div class="grid grid-cols-2 gap-6">
+                    <button onclick="answerQuestion(true)" 
+                            class="group py-8 bg-emerald-500 hover:bg-emerald-400 text-white text-4xl font-bold rounded-3xl transition-all active:scale-95 shadow-xl flex items-center justify-center gap-4">
+                        <span>YES</span>
+                        <span class="text-6xl transition-transform group-active:rotate-12">👍</span>
+                    </button>
+                    
+                    <button onclick="answerQuestion(false)" 
+                            class="group py-8 bg-rose-500 hover:bg-rose-400 text-white text-4xl font-bold rounded-3xl transition-all active:scale-95 shadow-xl flex items-center justify-center gap-4">
+                        <span>NO</span>
+                        <span class="text-6xl transition-transform group-active:-rotate-12">👎</span>
+                    </button>
+                </div>
 
-noBtn.addEventListener("click", ()=>{
-  if(count < questions.length){
-    question.innerText = questions[count];
-    count++;
-  } else {
-    question.innerText = "Okay okay 😤 but I still like you 💞";
-  }
-});
+                <div class="text-center text-xs text-amber-200/40 mt-8">
+                    Be honest... the AI knows when you're lying 😏
+                </div>
+            </div>
+        </div>
 
-yesBtn.addEventListener("click", ()=>{
-  question.style.display = "none";
-  document.querySelector(".buttons").style.display = "none";
-  result.style.display = "block";
-  result.innerHTML = "Hehe 😍 I love you moreee 💕<br><br>You just made my day ✨💖";
-  createHearts();
-});
+        <!-- RESULT SECTION -->
+        <div id="result" class="hidden text-center">
+            <div class="bg-gradient-to-br from-black/80 to-yellow-900/30 border-2 border-yellow-400 rounded-3xl p-12 max-w-2xl mx-auto">
+                
+                <div class="mb-8">
+                    <div class="inline-flex items-center gap-3 bg-yellow-400 text-black text-2xl font-bold px-8 py-3 rounded-3xl mb-6">
+                        <span>🧠 AI ANALYSIS COMPLETE</span>
+                    </div>
+                    <h2 class="text-5xl font-bold mb-2">Your Estimated Dowry</h2>
+                    <div id="amount" class="result-amount text-8xl font-bold dowry-gold mb-4 tracking-tighter">
+                        ₹ 00,00,000
+                    </div>
+                    <p id="amount-subtitle" class="text-amber-200 text-xl font-medium"></p>
+                </div>
 
-function createHearts(){
-  for(let i=0;i<25;i++){
-    let heart = document.createElement("div");
-    heart.innerHTML="💖";
-    heart.classList.add("heart");
-    heart.style.left=Math.random()*100+"vw";
-    heart.style.fontSize=(Math.random()*20+15)+"px";
-    heart.style.animationDuration=(Math.random()*3+3)+"s";
-    document.body.appendChild(heart);
-  }
-}
-</script>
+                <!-- Funny breakdown -->
+                <div class="grid grid-cols-3 gap-4 text-left mb-10 bg-black/40 rounded-3xl p-6">
+                    <div id="score-breakdown" class="col-span-3 space-y-3 text-sm"></div>
+                </div>
 
+                <div id="ai-comment" class="text-2xl italic max-w-lg mx-auto bg-yellow-400/10 border border-yellow-400/30 rounded-3xl p-8 mb-10 leading-relaxed">
+                </div>
+
+                <div class="flex gap-4 justify-center">
+                    <button onclick="restartQuiz()" 
+                            class="px-10 py-5 bg-white/10 hover:bg-white/20 rounded-3xl text-xl font-semibold flex items-center gap-3">
+                        🔄 CALCULATE AGAIN
+                    </button>
+                    
+                    <button onclick="shareResult()" 
+                            class="px-10 py-5 bg-yellow-400 hover:bg-amber-300 text-black rounded-3xl text-xl font-semibold flex items-center gap-3">
+                        📤 SHARE ON WHATSAPP
+                    </button>
+                </div>
+
+                <p class="text-xs text-amber-300/60 mt-10">Remember: This is satire. Real relationships don't have price tags.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind script initialization
+        function initTailwind() {
+            tailwind.config = {
+                content: [],
+                theme: {
+                    extend: {}
+                }
+            }
+        }
+        
+        // Questions database
+        const questions = [
+            {
+                q: "Is your girlfriend's family financially well-off?",
+                yes: 750000,
+                no: -150000,
+                label: "Family wealth"
+            },
+            {
+                q: "Does she come from a family with multiple properties or assets?",
+                yes: 850000,
+                no: 0,
+                label: "Property portfolio"
+            },
+            {
+                q: "Is she the only daughter in the family?",
+                yes: 600000,
+                no: -300000,
+                label: "Only daughter status"
+            },
+            {
+                q: "Does her father or family have a high-profile government or corporate job?",
+                yes: 450000,
+                no: -100000,
+                label: "Parental status"
+            },
+            {
+                q: "Is she highly educated (engineer, doctor, MBA etc.)?",
+                yes: 400000,
+                no: -50000,
+                label: "Education level"
+            },
+            {
+                q: "Does her family run a successful business?",
+                yes: 700000,
+                no: 0,
+                label: "Business background"
+            },
+            {
+                q: "Is your relationship fully approved by both families?",
+                yes: 250000,
+                no: -400000,
+                label: "Family approval"
+            },
+            {
+                q: "Does she have relatives living abroad (USA, Canada, etc.)?",
+                yes: 300000,
+                no: -80000,
+                label: "NRI connections"
+            },
+            {
+                q: "Would you say she has 'modern + traditional' vibes?",
+                yes: 200000,
+                no: -150000,
+                label: "Vibes check"
+            },
+            {
+                q: "Does her family have any political or social influence?",
+                yes: 550000,
+                no: -200000,
+                label: "Influence factor"
+            }
+        ]
+        
+        let currentQuestionIndex = 0
+        let totalScore = 0
+        let answers = []
+        
+        // Base amount
+        const BASE_AMOUNT = 1200000
+        
+        function startQuiz() {
+            document.getElementById('landing').classList.add('hidden')
+            document.getElementById('quiz').classList.remove('hidden')
+            document.getElementById('result').classList.add('hidden')
+            
+            currentQuestionIndex = 0
+            totalScore = 0
+            answers = []
+            
+            showQuestion()
+        }
+        
+        function showQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                calculateResult()
+                return
+            }
+            
+            const q = questions[currentQuestionIndex]
+            
+            document.getElementById('current-q').textContent = currentQuestionIndex + 1
+            document.getElementById('question-text').innerHTML = `
+                <span class="text-yellow-400 text-3xl block mb-6">Q${currentQuestionIndex + 1}</span>
+                ${q.q}
+            `
+            
+            // Progress bar
+            const progress = ((currentQuestionIndex) / questions.length) * 100
+            document.getElementById('progress-bar').style.width = `${progress}%`
+        }
+        
+        function answerQuestion(isYes) {
+            const q = questions[currentQuestionIndex]
+            const scoreThis = isYes ? q.yes : q.no
+            totalScore += scoreThis
+            
+            // Store answer for breakdown
+            answers.push({
+                label: q.label,
+                answer: isYes ? "YES" : "NO",
+                points: scoreThis
+            })
+            
+            currentQuestionIndex++
+            showQuestion()
+        }
+        
+        function calculateResult() {
+            document.getElementById('quiz').classList.add('hidden')
+            document.getElementById('result').classList.remove('hidden')
+            
+            // Final amount
+            let finalAmount = Math.max(BASE_AMOUNT + totalScore, 250000) // minimum fun amount
+            
+            // Format with Indian commas
+            const formatted = "₹ " + finalAmount.toLocaleString('en-IN')
+            document.getElementById('amount').textContent = formatted
+            
+            // Subtitle based on amount
+            let subtitle = ""
+            if (finalAmount > 5000000) {
+                subtitle = "JACKPOT! Her family is LOADED 🔥"
+            } else if (finalAmount > 3000000) {
+                subtitle = "Premium match detected 💰"
+            } else if (finalAmount > 1500000) {
+                subtitle = "Solid middle-class vibes"
+            } else {
+                subtitle = "Love marriage might be cheaper 😉"
+            }
+            document.getElementById('amount-subtitle').innerHTML = subtitle
+            
+            // Breakdown
+            let breakdownHTML = `<div class="text-yellow-400 font-semibold mb-4">HOW WE CALCULATED IT:</div>`
+            answers.forEach(a => {
+                const color = a.points > 0 ? 'text-emerald-400' : 'text-rose-400'
+                breakdownHTML += `
+                    <div class="flex justify-between items-center py-2 border-b border-white/10 last:border-none">
+                        <span>${a.label}</span>
+                        <span class="font-medium \( {color}"> \){a.answer} → ₹${Math.abs(a.points).toLocaleString('en-IN')}</span>
+                    </div>`
+            })
+            document.getElementById('score-breakdown').innerHTML = breakdownHTML
+            
+            // Funny AI comment
+            const comments = [
+                "Our AI analyzed 1,337,420 similar cases. You're in the top 8% of grooms!",
+                "According to ancient algorithms, this is a fair valuation 💍",
+                "Pro tip: Show her this result only after marriage ✅",
+                "The AI says: 'She's a keeper... but her family has money too!'",
+                "Congrats! You just unlocked 'Dowry Legend' badge 🏆"
+            ]
+            document.getElementById('ai-comment').textContent = comments[Math.floor(Math.random() * comments.length)]
+            
+            // Confetti if high amount
+            if (finalAmount > 3500000) {
+                triggerConfetti()
+            }
+        }
+        
+        function triggerConfetti() {
+            const colors = ['#facc15', '#eab308', '#fcd34d', '#fffbeb']
+            for (let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div')
+                confetti.className = 'confetti'
+                confetti.style.left = Math.random() * 100 + 'vw'
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)]
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`
+                confetti.style.animationDuration = (Math.random() * 2.5 + 2.5) + 's'
+                document.body.appendChild(confetti)
+                
+                setTimeout(() => {
+                    confetti.remove()
+                }, 6000)
+            }
+        }
+        
+        function restartQuiz() {
+            document.getElementById('result').classList.add('hidden')
+            document.getElementById('landing').classList.remove('hidden')
+            document.getElementById('quiz').classList.add('hidden')
+        }
+        
+        function shareResult() {
+            const amountText = document.getElementById('amount').textContent
+            const text = `😂 I just used the AI Dowry Calculator and it says her family should pay ${amountText}! \n\nTry it yourself (for fun only): [Paste your GitHub link here]`
+            const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}`
+            window.open(whatsappUrl, '_blank')
+        }
+        
+        // Initialize everything
+        window.onload = function() {
+            initTailwind()
+            console.log('%c✅ AI Dowry Calculator loaded successfully! Ready to meme.', 'color:#facc15; font-size:13px; font-weight:bold')
+        }
+    </script>
 </body>
 </html>
