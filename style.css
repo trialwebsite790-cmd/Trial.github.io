@@ -1,0 +1,228 @@
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+font-family:'Inter',sans-serif;
+background:linear-gradient(
+180deg,
+#fff9f8 0%,
+#fff4f5 30%,
+#fdeff2 100%
+);
+overflow-x:hidden;
+color:#6f2d46;
+}
+
+.hero{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:30px;
+text-align:center;
+position:relative;
+}
+
+.hero-content{
+max-width:600px;
+}
+
+.top-text{
+letter-spacing:4px;
+font-size:13px;
+margin-bottom:20px;
+color:#b76a80;
+}
+
+.hero h1{
+font-family:'Cormorant Garamond',serif;
+font-size:80px;
+font-weight:700;
+margin-bottom:10px;
+color:#8f274d;
+}
+
+.subtitle{
+font-size:20px;
+line-height:1.8;
+color:#8a6b76;
+margin-bottom:35px;
+}
+
+.main-btn{
+display:inline-block;
+padding:18px 40px;
+border-radius:50px;
+text-decoration:none;
+font-weight:600;
+color:white;
+background:linear-gradient(
+90deg,
+#e48ca3,
+#8e2148
+);
+box-shadow:0 12px 25px rgba(142,33,72,.25);
+transition:.3s;
+}
+
+.main-btn:hover{
+transform:translateY(-3px);
+}
+
+.messages{
+max-width:900px;
+margin:auto;
+padding:60px 20px;
+}
+
+.messages h2{
+text-align:center;
+font-family:'Cormorant Garamond',serif;
+font-size:56px;
+margin-bottom:50px;
+color:#8e2148;
+}
+
+.message-card{
+background:rgba(255,255,255,.75);
+backdrop-filter:blur(10px);
+border-radius:30px;
+padding:35px;
+margin-bottom:30px;
+box-shadow:0 10px 35px rgba(0,0,0,.06);
+border-left:6px solid #d47b94;
+}
+
+.message-card h3{
+font-family:'Cormorant Garamond',serif;
+font-size:40px;
+font-weight:600;
+margin-bottom:15px;
+}
+
+.message-card p{
+font-size:18px;
+line-height:1.9;
+color:#7f6973;
+}
+
+.final-letter{
+padding:80px 20px;
+}
+
+.letter-card{
+max-width:900px;
+margin:auto;
+background:white;
+padding:45px;
+border-radius:30px;
+box-shadow:0 10px 40px rgba(0,0,0,.08);
+}
+
+.small-heading{
+letter-spacing:3px;
+font-size:14px;
+margin-bottom:25px;
+color:#b06c82;
+}
+
+.long-text{
+font-size:19px;
+line-height:2;
+color:#6b5a61;
+}
+
+.ending{
+padding:100px 20px;
+text-align:center;
+}
+
+.ending h2{
+font-family:'Cormorant Garamond',serif;
+font-size:64px;
+margin-bottom:25px;
+color:#8e2148;
+}
+
+.ending p{
+font-size:22px;
+line-height:1.8;
+color:#856771;
+}
+
+.signature{
+margin-top:40px;
+font-size:24px;
+font-style:italic;
+color:#8e2148;
+}
+
+.floating-hearts{
+position:fixed;
+left:0;
+top:0;
+width:100%;
+height:100%;
+pointer-events:none;
+z-index:-1;
+}
+
+.heart{
+position:absolute;
+font-size:22px;
+opacity:.4;
+animation:floatUp linear infinite;
+}
+
+@keyframes floatUp{
+
+0%{
+transform:translateY(120vh);
+opacity:0;
+}
+
+20%{
+opacity:.5;
+}
+
+100%{
+transform:translateY(-120px);
+opacity:0;
+}
+
+}
+
+@media(max-width:768px){
+
+.hero h1{
+font-size:58px;
+}
+
+.messages h2{
+font-size:42px;
+}
+
+.message-card h3{
+font-size:30px;
+}
+
+.ending h2{
+font-size:44px;
+}
+
+.subtitle{
+font-size:18px;
+}
+
+.long-text{
+font-size:17px;
+}
+
+}
